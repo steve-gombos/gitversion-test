@@ -1,4 +1,4 @@
-mode: ContinuousDelivery
+mode: ContinuousDeployment
 
 merge-message-formats:
   ReleaseToMain: '^chore\(main\):\s*release[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(\s*\(#(?<PullRequestNumber>\d+)\))?$'
