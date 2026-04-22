@@ -1,0 +1,44 @@
+mode: ContinuousDeployment
+
+merge-message-formats:
+  ReleaseToMain: '^chore\(main\):\s*release[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(\s*\(#(?<PullRequestNumber>\d+)\))?$'
+  HotfixToMain: '^chore\(main\):\s*hotfix[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(\s*\(#(?<PullRequestNumber>\d+)\))?$'
+  LegacyReleaseToMain: '^Merge pull request #(?<PullRequestNumber>\d+) from (?:.+/)?release[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)$'
+  LegacyHotfixToMain: '^Merge pull request #(?<PullRequestNumber>\d+) from (?:.+/)?hotfix[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)$'
+
+branches:
+  main:
+    regex: ^main$
+    label: ''
+    increment: Patch
+    is-release-branch: true
+    is-main-branch: true
+    source-branches:
+      - release
+      - hotfix
+    prevent-increment:
+      of-merged-branch: true
+  
+  develop:
+    regex: ^develop$
+    label: alpha
+    increment: Minor
+    source-branches:
+      - main
+      - pull-request
+
+  release:
+    regex: ^release[/-](?<BranchVersion>\d+\.\d+\.\d+)$
+    label: rc
+    increment: None
+    is-release-branch: true
+    source-branches:
+      - develop
+
+  hotfix:
+    regex: ^hotfix[/-](?<BranchVersion>\d+\.\d+\.\d+)$
+    label: hotfix
+    increment: None
+    is-release-branch: true
+    source-branches:
+      - main
