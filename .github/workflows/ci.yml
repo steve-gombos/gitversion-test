@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - release/*
+      - hotfix/*
+  pull_request:
+    branches:
+      - develop
+      - main
+      - release/*
+      - hotfix/*
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+  id-token: write
+  security-events: write
+  issues: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      semVer: ${{ steps.version.outputs.semVer }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10
+          
+      - uses: uhc-tech-employer-individual-ancillary/actions-gittools/gitversion/setup@v4.4.2
+        name: gitversion/setup
+        with:
+          versionSpec: '6.x'
+          
+      - uses: uhc-tech-employer-individual-ancillary/actions-gittools/gitversion/execute@v4.4.2
+        name: gitversion/execute
+        id: version
+        
+      - name: tag
+        uses: actions/github-script@v9
+        if: ${{ github.ref == 'refs/heads/main' || contains(github.ref, 'refs/heads/release/') || contains(github.ref, 'refs/heads/hotfix/') }}
+        env:
+          VERSION: ${{ steps.version.outputs.semVer }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${process.env.VERSION}`,
+              sha: context.sha
+            })
+            
+      - name: Output Version
+        env:
+          VERSION: ${{ steps.version.outputs.semVer }}
+        run: |
+          echo "$VERSION" >> $GITHUB_STEP_SUMMARY
+        shell: bash
