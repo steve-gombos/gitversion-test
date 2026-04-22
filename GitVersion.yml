@@ -1,8 +1,8 @@
 mode: ContinuousDelivery
 
 merge-message-formats:
-  ReleaseToMain: '^chore\(main\):\s*release[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)\s*\(#(?<PullRequestNumber>\d+)\)'
-  HotfixToMain: '^chore\(main\):\s*hotfix[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)\s*\(#(?<PullRequestNumber>\d+)\)'
+  ReleaseToMain: '^chore\(main\):\s*release[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(\s*\(#(?<PullRequestNumber>\d+)\))?$'
+  HotfixToMain: '^chore\(main\):\s*hotfix[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(\s*\(#(?<PullRequestNumber>\d+)\))?$'
   LegacyReleaseToMain: '^Merge pull request #(?<PullRequestNumber>\d+) from (?:.+/)?release[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)$'
   LegacyHotfixToMain: '^Merge pull request #(?<PullRequestNumber>\d+) from (?:.+/)?hotfix[/-](?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)$'
 
