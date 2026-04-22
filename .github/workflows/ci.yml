@@ -36,12 +36,12 @@ jobs:
         with:
           dotnet-version: 10
           
-      - uses: uhc-tech-employer-individual-ancillary/actions-gittools/gitversion/setup@v4.4.2
+      - uses: gittools/actions/gitversion/setup@v4.4.2
         name: gitversion/setup
         with:
           versionSpec: '6.x'
           
-      - uses: uhc-tech-employer-individual-ancillary/actions-gittools/gitversion/execute@v4.4.2
+      - uses: gittools/actions/gitversion/execute@v4.4.2
         name: gitversion/execute
         id: version
         
