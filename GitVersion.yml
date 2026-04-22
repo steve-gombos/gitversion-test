@@ -10,3 +10,6 @@ branches:
   release:
     regex: ^releases?[/-]
     label: rc
+  hotfix:
+    regex: ^hotfix?[/-]
+    label: hotfix
